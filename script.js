@@ -1,5 +1,7 @@
 var x;
 
+var win_pic = '<img src = "http://public.media.smithsonianmag.com/legacy_blog/smiley-face-1.jpg"/>';
+
 var main = function (input) {
   var turn = true;
   if (input == "h") {
@@ -7,8 +9,9 @@ var main = function (input) {
     var myOutputValue = evaluate(x.player, x.computer, turn);
   } else if (input == "s") {
     turn = false;
-    x.computer = dealer(x.computer, x.deck);
-    var myOutputValue = evaluate(x.player, x.computer, turn);
+    var dealer_outcome = dealer(x.computer, x.deck);
+    x.computer = dealer_outcome["hand"];
+    var myOutputValue = evaluate(x.player, x.computer, turn) + "<br/>" + "The dealer hit " + dealer_outcome["dealer_hit"] + " time(s).";
   } else {
     x = start_game();
     var myOutputValue = evaluate(x.player, x.computer, turn);
@@ -119,7 +122,7 @@ var compare_hands = function(hand1, hand2) {
   if (sum1 == sum2) {
     return("Tie!");
   } else if (sum1 > sum2) {
-    return("Player wins!");
+    return("Player wins!" + "<br/><br/>" + win_pic);
   } else {
     return("Computer wins!");
   }
@@ -142,19 +145,20 @@ var hit = function (hand, deck) {
 }
 
 var dealer = function(hand, deck) {
+  var dealer_hit = 0
   while (sum_hand(hand) < 17){
-    hit(hand, deck)
+    hit(hand, deck);
+    dealer_hit++;
   }
-  return hand;
+  return {hand: hand, dealer_hit: dealer_hit};
 }
 
 var evaluate = function (hand1, hand2, turn) {
   var string = "Player: " + stringify_hand(hand1);
-  // var string = "Player: " + stringify_hand(hand1) + "<br/>" + "Computer: " + stringify_hand(hand2);
   if (blackjack_check(hand1) && blackjack_check(hand2)) {
     string = string + "<br/>" + "Computer: " + stringify_hand(hand2) + "<br/>" + "Tie by blackjack!";
   } else if (blackjack_check(hand1)) {
-    string = string + "<br/>" + "Computer: " + stringify_hand(hand2) + "<br/>" + "Player wins by blackjack!";
+    string = string + "<br/>" + "Computer: " + stringify_hand(hand2) + "<br/>" + "Player wins by blackjack!" + "<br/><br/>" + win_pic;
   } else if (blackjack_check(hand2)) {
     string = string + "<br/>" + "Computer: " + stringify_hand(hand2) + "<br/>" + "Computer wins by blackjack!";
   } else if (turn) {
@@ -170,7 +174,7 @@ var evaluate = function (hand1, hand2, turn) {
     } else if (!safe_hand(hand1)) {
       string = string + "<br/>" + "You lose!";
     } else if (!safe_hand(hand2)) {
-      string = string + "<br/>" + "You win!";
+      string = string + "<br/>" + "You win!" + "<br/><br/>" + win_pic;
     } else {
       string = string + "<br/>" + compare_hands(hand1, hand2)
     }
