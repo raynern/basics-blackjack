@@ -73,6 +73,16 @@
         margin-bottom: 3rem;
       }
 
+      #container0 {
+        background-color: rgb(95, 135, 93);
+        margin: 40px auto;
+        max-width: 800px;
+        padding: 38px 31px;
+        border-radius: 25px;
+        border: 10px solid rgb(192, 135, 61);
+        color: white;
+      }
+
       #container {
         background-color: rgb(95, 135, 93);
         margin: 40px auto;
@@ -129,37 +139,27 @@
       <img class="logo-img" src="https://ra-web-files.s3.ap-southeast-1.amazonaws.com/all/brand/logo.png" />
     </h1>
     <h1 class="header">♣️ Basics - Blackjack ♠️</h1>
-    <div id="container">
-      <p>Start a game!</p>
+    <div id="container0">
+      <p>Welcome to Blackjack, how many players are playing?!</p>
       <br />
-      <button id="start-button">Start game</button>
+      <div class="slidecontainer">
+        <input type="range" min="1" max="4" value="1" class="slider" id="myRange">
+        <p>Player(s): <span id="demo"></span></p>
+        <button onclick="myFunction()">Let's go!</button>
+      </div>
+    </div>
+    <div style="display:none;" id="container">
+      <p id="pregame"></p>
+      <br />
+      <!-- <button id="start-button">Start game</button> -->
       <button id="hit-button">Hit</button>
-      <button id="stand-button">Stand</button>
+      <button id="stand-button">Stand (next player or dealer)</button>
       <p>Output:</p>
       <div id="output-div"></div>
     </div>
     <!-- Import program logic -->
     <script src="script.js"></script>
     <!-- Define button click functionality -->
-    <script>
-      var start_button = document.querySelector("#start-button");
-      start_button.addEventListener("click", function () {
-        var result = main("p");
-        var output = document.querySelector("#output-div");
-        output.innerHTML = result;
-      });
-      var hit_button = document.querySelector("#hit-button");
-      hit_button.addEventListener("click", function () {
-        var result = main("h");
-        var output = document.querySelector("#output-div");
-        output.innerHTML = result;
-      });
-      var stand_button = document.querySelector("#stand-button");
-      stand_button.addEventListener("click", function () {
-        var result = main("s");
-        var output = document.querySelector("#output-div");
-        output.innerHTML = result;
-      });
     </script>
   </body>
 </html>
